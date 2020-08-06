@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PizzaBox.Storing;
 
 namespace PizzaBox.Client
 {
@@ -24,6 +26,11 @@ namespace PizzaBox.Client
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+             services.AddDbContext<PizzaBoxDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("mssql"));
+                //can also use Configuration["ObjName:Property:NestedProp"]
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,10 +55,17 @@ namespace PizzaBox.Client
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
+            }
+            );
+            /*
+            app.UseEndpoints(endpoints =>
+            {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+            */
         }
     }
 }

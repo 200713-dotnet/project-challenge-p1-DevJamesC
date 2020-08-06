@@ -9,6 +9,8 @@ using PizzaBox.Client.Models;
 
 namespace PizzaBox.Client.Controllers
 {
+    
+    [Route("/[Controller][Action]")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -17,12 +19,16 @@ namespace PizzaBox.Client.Controllers
         {
             _logger = logger;
         }
-
+        [Route("/")]
+        [Route("~/Home")]
+       // [Route("~/Home/Index")]
+       // [Route("~/Home/Home")]
+       //[HttpPost]
         public IActionResult Index()
         {
             return View();
         }
-
+        
         public IActionResult Privacy()
         {
             return View();

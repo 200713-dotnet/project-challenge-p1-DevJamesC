@@ -1,0 +1,44 @@
+@model PizzaBox.Client.Models.PizzaViewModel
+
+@* security measures can prevent...
+CORS = cross-origin resource sharing, ability to share between domains
+XSS = cross-site scripting, mim (man-in-the-middle)
+CSRF* = cross-site request forgery, phishing *@
+
+@* TAG HELPER WAY (Razer Way) *@
+<form asp-action="placeorder" method="post">
+    
+  @foreach (var crust in @Model.Crusts)
+  {
+    <input name="crust" type="radio" asp-for="@Model.Crust" value="@crust.Name" data-val-required="Crust is Required">
+    <label for="crust">@crust.Name</label>
+    @Html.ValidationMessageFor(m => m.Crust)
+  }
+
+  <select asp-for="@Model.Size">
+    @foreach (var size in @Model.Sizes)
+    {
+      <option value="@size.Name">@size.Name</option>
+    }
+  </select>
+
+
+
+    @foreach (var top in @Model.SelectedToppings)
+    {
+        //@Html.HiddenFor(t => top.Id);
+        //@Html.DisplayFor(t=>top.Name);
+        @Html.CheckBoxFor(t=> top.Checked, top.Checked);
+    }
+  
+   
+
+ 
+
+  <button type="submit">place order</button>
+</form>
+
+@*linking
+<a href="/user/home">user homepage</a>
+@Html.ActionLink("user page", "index","user");
+<a asp-controller="user" asp-action="index">user page</a>*@
