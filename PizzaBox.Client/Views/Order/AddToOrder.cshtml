@@ -1,0 +1,68 @@
+@model PizzaBox.Client.Models.UserViewModel
+
+@* security measures can prevent...
+CORS = cross-origin resource sharing, ability to share between domains
+XSS = cross-site scripting, mim (man-in-the-middle)
+CSRF* = cross-site request forgery, phishing *@
+
+@* TAG HELPER WAY (Razer Way) *@
+<h3>Order for @Model.Name</h3>
+<form asp-action="ResolveAddToOrder" method="post">
+@Html.HiddenFor(m => m.Name)
+ @Html.HiddenFor(m => m.SelectedStore)
+ @Html.HiddenFor(m => m.Order)
+      
+            @for (int i = 0; i < @Model.Order.Pizzas.Count(); i++) 
+       {
+  @Html.HiddenFor(m => m.Order.Pizzas[i]);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Name);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Price);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Crust);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Crust.Name);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Crust.Price);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Size);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Size.Name);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Price);
+  for (int j = 0; j < @Model.Order.Pizzas[i].Toppings.Count; j++)
+  {
+      @Html.HiddenFor(m => m.Order.Pizzas[i].Toppings[j]);
+      @Html.HiddenFor(m => m.Order.Pizzas[i].Toppings[j].Name);
+      @Html.HiddenFor(m => m.Order.Pizzas[i].Toppings[j].Price);
+  }
+       }
+
+ 
+  <select asp-for="@Model.PizzaVm.Crust">
+      @foreach (var crust in @Model.PizzaVm.Crusts)
+      {
+          <option value="@crust.Name" id="@crust.Id">@crust.Name</option>
+         
+      }
+
+  </select>
+
+  <select asp-for="@Model.PizzaVm.Size">
+    @foreach (var size in @Model.PizzaVm.Sizes)
+    {
+      <option value="@size.Name">@size.Name</option>
+    }
+  </select>
+
+
+    @foreach (var top in @Model.PizzaVm.Toppings)
+    {
+        <input type="CheckBox" asp-for="PizzaVm.Selected" id="@top.Id" value="@top.Name" name="PizzaVm.SelectedToppings">
+        <label id="@top.Id">@top.Name</label>
+    }
+  
+   
+
+ 
+
+  <button type="submit">Add to order</button>
+</form>
+
+@*linking
+<a href="/user/home">user homepage</a>
+@Html.ActionLink("user page", "index","user");
+<a asp-controller="user" asp-action="index">user page</a>*@

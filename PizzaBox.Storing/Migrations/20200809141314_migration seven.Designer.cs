@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PizzaBox.Storing;
 
 namespace PizzaBox.Storing.Migrations
 {
     [DbContext(typeof(PizzaBoxDbContext))]
-    partial class PizzaBoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200809141314_migration seven")]
+    partial class migrationseven
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +36,7 @@ namespace PizzaBox.Storing.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Crust");
+                    b.ToTable("CrustModel");
                 });
 
             modelBuilder.Entity("PizzaBox.Domain.Models.OrderModel", b =>
@@ -105,7 +107,7 @@ namespace PizzaBox.Storing.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Size");
+                    b.ToTable("SizeModel");
                 });
 
             modelBuilder.Entity("PizzaBox.Domain.Models.StoreModel", b =>
@@ -143,7 +145,7 @@ namespace PizzaBox.Storing.Migrations
 
                     b.HasIndex("PizzaModelId");
 
-                    b.ToTable("Toppings");
+                    b.ToTable("ToppingModel");
                 });
 
             modelBuilder.Entity("PizzaBox.Domain.Models.UserModel", b =>

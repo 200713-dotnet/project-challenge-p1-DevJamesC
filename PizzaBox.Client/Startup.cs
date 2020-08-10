@@ -29,7 +29,7 @@ namespace PizzaBox.Client
              services.AddDbContext<PizzaBoxDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("mssql"));
-                //can also use Configuration["ObjName:Property:NestedProp"]
+                //can also use Configuration["ConnectionStrings:mssql"]
             });
         }
 

@@ -1,44 +1,75 @@
-@model PizzaBox.Client.Models.PizzaViewModel
+@model PizzaBox.Client.Models.UserViewModel;
 
-@* security measures can prevent...
-CORS = cross-origin resource sharing, ability to share between domains
-XSS = cross-site scripting, mim (man-in-the-middle)
-CSRF* = cross-site request forgery, phishing *@
+    <h2>Welcome @Model.Name</h2>
+    <a asp-controller="order" asp-action="checkPreviousOrders">Check Previous Orders</a>
+    <form asp-action="AddToOrder" method="post">
+        @Html.HiddenFor(m => m.Name)
+        @Html.HiddenFor(m => m.SelectedStore)
 
-@* TAG HELPER WAY (Razer Way) *@
-<form asp-action="placeorder" method="post">
-    
-  @foreach (var crust in @Model.Crusts)
+
+       @for (int i = 0; i < @Model.Order.Pizzas.Count(); i++) 
+       {
+  @Html.HiddenFor(m => m.Order.Pizzas[i]);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Name);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Price);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Crust);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Crust.Name);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Crust.Price);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Size);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Size.Name);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Price);
+  for (int j = 0; j < @Model.Order.Pizzas[i].Toppings.Count; j++)
   {
-    <input name="crust" type="radio" asp-for="@Model.Crust" value="@crust.Name" data-val-required="Crust is Required">
-    <label for="crust">@crust.Name</label>
-    @Html.ValidationMessageFor(m => m.Crust)
+      @Html.HiddenFor(m => m.Order.Pizzas[i].Toppings[j]);
+      @Html.HiddenFor(m => m.Order.Pizzas[i].Toppings[j].Name);
+      @Html.HiddenFor(m => m.Order.Pizzas[i].Toppings[j].Price);
   }
-
-  <select asp-for="@Model.Size">
-    @foreach (var size in @Model.Sizes)
-    {
-      <option value="@size.Name">@size.Name</option>
-    }
-  </select>
-
-
-
-    @foreach (var top in @Model.SelectedToppings)
-    {
-        //@Html.HiddenFor(t => top.Id);
-        //@Html.DisplayFor(t=>top.Name);
-        @Html.CheckBoxFor(t=> top.Checked, top.Checked);
-    }
   
-   
+}
 
- 
+     <button type="submit">Add an Item</button>
 
-  <button type="submit">place order</button>
-</form>
+    </form>
+    <h3>Your Current Order</h3>
+    @if(@Model.Order.Pizzas.Count>0)
+    {
+        @foreach (var item in @Model.Order.Pizzas)
+        {
+            <p>@item.ToString()<br></p>
+        }
+    }
+    else
+    {
+        <p>Empty</p>
+    }
 
-@*linking
-<a href="/user/home">user homepage</a>
-@Html.ActionLink("user page", "index","user");
-<a asp-controller="user" asp-action="index">user page</a>*@
+ <form asp-controller="order" asp-action="PlaceOrder" method="post">
+
+ @Html.HiddenFor(m => m.Name)
+        @Html.HiddenFor(m => m.SelectedStore)
+
+
+       @for (int i = 0; i < @Model.Order.Pizzas.Count(); i++) 
+       {
+  @Html.HiddenFor(m => m.Order.Pizzas[i]);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Name);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Price);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Crust);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Crust.Name);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Crust.Price);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Size);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Size.Name);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Price);
+  for (int j = 0; j < @Model.Order.Pizzas[i].Toppings.Count; j++)
+  {
+      @Html.HiddenFor(m => m.Order.Pizzas[i].Toppings[j]);
+      @Html.HiddenFor(m => m.Order.Pizzas[i].Toppings[j].Name);
+      @Html.HiddenFor(m => m.Order.Pizzas[i].Toppings[j].Price);
+  }
+  
+}
+
+
+     <button type="submit">Place Order</button>
+       </form>
+

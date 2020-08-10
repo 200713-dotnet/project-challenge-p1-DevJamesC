@@ -1,0 +1,21 @@
+@model PizzaBox.Client.Models.UserViewModel
+
+<html>
+    <h1>Welcome User</h1>
+
+<form asp-action="selectStore" method="post">
+
+  <select asp-for="@Model.SelectedStore">
+    @foreach (var store in @Model.Stores)
+    {
+      <option value="@store.Name">@store.Name</option>
+      @Html.ValidationMessageFor(m => m.SelectedStore,"Please Select a Store");
+    }
+  </select>
+
+  <input type="Textbox" asp-for="@Model.Name" text='Input name'>
+  @Html.ValidationMessageFor(m => m.Name,"Please enter name");
+
+  <button type="submit">Continue To Order</button>
+</form>
+</html>

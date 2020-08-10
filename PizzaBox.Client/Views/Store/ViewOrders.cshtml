@@ -1,0 +1,14 @@
+@model PizzaBox.Client.Models.UserViewModel;
+
+    <a asp-controller="store" asp-action="index">back<br></a>
+
+    @foreach (var order in @Model.OldOrders)
+    {
+         <p>---------------<br>
+       @order.Name<br>
+        @foreach (var item in @order.Pizzas)
+        {
+            @item.ToString()<br>
+        }
+        ---------------<br></p>
+    }

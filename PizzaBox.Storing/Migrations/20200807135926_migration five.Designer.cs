@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PizzaBox.Storing;
 
 namespace PizzaBox.Storing.Migrations
 {
     [DbContext(typeof(PizzaBoxDbContext))]
-    partial class PizzaBoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200807135926_migration five")]
+    partial class migrationfive
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +36,7 @@ namespace PizzaBox.Storing.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Crust");
+                    b.ToTable("CrustModel");
                 });
 
             modelBuilder.Entity("PizzaBox.Domain.Models.OrderModel", b =>
@@ -47,12 +49,7 @@ namespace PizzaBox.Storing.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UserModelId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserModelId");
 
                     b.ToTable("Orders");
                 });
@@ -105,7 +102,7 @@ namespace PizzaBox.Storing.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Size");
+                    b.ToTable("SizeModel");
                 });
 
             modelBuilder.Entity("PizzaBox.Domain.Models.StoreModel", b =>
@@ -143,7 +140,7 @@ namespace PizzaBox.Storing.Migrations
 
                     b.HasIndex("PizzaModelId");
 
-                    b.ToTable("Toppings");
+                    b.ToTable("ToppingModel");
                 });
 
             modelBuilder.Entity("PizzaBox.Domain.Models.UserModel", b =>
@@ -156,26 +153,14 @@ namespace PizzaBox.Storing.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("StoreId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
-
                     b.HasIndex("StoreId");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("PizzaBox.Domain.Models.OrderModel", b =>
-                {
-                    b.HasOne("PizzaBox.Domain.Models.UserModel", null)
-                        .WithMany("OldOrders")
-                        .HasForeignKey("UserModelId");
                 });
 
             modelBuilder.Entity("PizzaBox.Domain.Models.PizzaModel", b =>
@@ -202,10 +187,6 @@ namespace PizzaBox.Storing.Migrations
 
             modelBuilder.Entity("PizzaBox.Domain.Models.UserModel", b =>
                 {
-                    b.HasOne("PizzaBox.Domain.Models.OrderModel", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId");
-
                     b.HasOne("PizzaBox.Domain.Models.StoreModel", "Store")
                         .WithMany()
                         .HasForeignKey("StoreId");

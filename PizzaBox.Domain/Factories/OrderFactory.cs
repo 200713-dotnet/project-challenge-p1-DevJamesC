@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using PizzaBox.Domain.Models;
 
 namespace PizzaBox.Domain.Factories
@@ -6,7 +7,7 @@ namespace PizzaBox.Domain.Factories
     {
         public OrderModel Create()
         {
-            throw new System.NotImplementedException();
+            return new OrderModel(){Pizzas = new List<PizzaModel>()};
         }
     }
 }

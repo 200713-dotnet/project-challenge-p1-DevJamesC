@@ -26,6 +26,7 @@ namespace PizzaBox.Client.Controllers
        //[HttpPost]
         public IActionResult Index()
         {
+            //have a "log in" view to select user or store
             return View();
         }
         

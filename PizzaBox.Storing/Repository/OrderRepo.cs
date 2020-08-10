@@ -10,6 +10,7 @@ namespace PizzaBox.Storing.Repository
         public void WriteOrder(OrderModel order)
         {
             _db.Orders.Add(order);
+            _db.SaveChanges();
         }
 
         public IEnumerable ReadOrder()

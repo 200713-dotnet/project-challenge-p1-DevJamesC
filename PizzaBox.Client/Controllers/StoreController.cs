@@ -3,10 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 using PizzaBox.Storing;
 using System.Collections.Generic;
 using PizzaBox.Domain.Models;
+using PizzaBox.Client.Models;
 
 namespace PizzaBox.Client.Controllers
 {
-    //Can handle CRUD requests (Create Update Delete)
+    [Route("[controller]/[action]")]
     public class StoreController: Controller
     {
 
@@ -15,6 +16,16 @@ namespace PizzaBox.Client.Controllers
         public StoreController(PizzaBoxDbContext dbContext) //constructor dependency injection
         {
             _db=dbContext;
+        }
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult ViewOrders()
+        {
+            return View("ViewOrders",new UserViewModel(_db,new UserViewModel()));
         }
        
 

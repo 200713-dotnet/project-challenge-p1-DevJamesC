@@ -9,7 +9,7 @@ namespace PizzaBox.Storing
 
         private PizzaBoxDbContext()
         {
-            instance = new PizzaBoxDbContext();
+            
         }
 
         public static PizzaBoxDbContext Instance()
@@ -30,6 +30,10 @@ namespace PizzaBox.Storing
         public DbSet<OrderModel> Orders { get; set; }
 
         public DbSet<StoreModel> Store { get; set; }
+
+        public DbSet<CrustModel> Crust {get; set;}
+        public DbSet<SizeModel> Size {get; set;}
+        public DbSet<ToppingModel> Toppings {get; set;}
 
         public PizzaBoxDbContext(DbContextOptions options) : base(options) { } //dependency injection
 

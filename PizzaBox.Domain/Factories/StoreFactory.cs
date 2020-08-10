@@ -6,7 +6,7 @@ namespace PizzaBox.Domain.Factories
     {
         public StoreModel Create()
         {
-            throw new System.NotImplementedException();
+            return new StoreModel();
         }
     }
 }

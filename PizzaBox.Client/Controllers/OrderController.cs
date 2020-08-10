@@ -6,47 +6,81 @@ using PizzaBox.Domain.Models;
 using PizzaBox.Client.Models;
 using PizzaBox.Domain.Factories;
 using Microsoft.AspNetCore.Cors;
+using PizzaBox.Storing.Repository;
 
 namespace PizzaBox.Client.Controllers
 {
-    
-    [Route("/[controller]/[action]")] //CURRENTLY ONLY THE METHOD ROUTING (also called attribute routing) WORKS. THIS LINE IS EFFECTIVLY USELESS
-    //[Route("/[Controller]")]// if using controller/method routing, then don't use global routing
-    //[EnableCors()]//just using default cors
+
+    [Route("/[controller]/[action]")] 
     public class OrderController : Controller
     {
-        
+
         private readonly PizzaBoxDbContext _db;
 
-        public OrderController(PizzaBoxDbContext dbContext) //constructor dependency injection
+        public OrderController(PizzaBoxDbContext dbContext) 
         {
             _db = dbContext;
         }
-          
-       // [Route("/Order")]
+
+        // [Route("/Order")]
         //[Route("~/Order/Home")]
-        public IActionResult Home()
+        public IActionResult Home(UserViewModel userViewModel)
         {
-            return View("Order", new PizzaViewModel());
+            var viewModel = new UserViewModel(_db, userViewModel);
+           //var userModel=new UserRepo(_db).GetUserByName(userViewModel.Name);
+           // viewModel.Order=userModel.Order;
+
+            return View("Order", viewModel);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult PlaceOrder(PizzaViewModel pizzaViewModel) //model binding
+        public IActionResult AddToOrder(UserViewModel userViewModel)
         {
-            
-            if (ModelState.IsValid) // what is being validated? (The "required" attributes above parameters in the viewModel)
+            userViewModel.PizzaVm = new PizzaViewModel();
+            return View("AddToOrder", userViewModel);
+
+        }
+
+        public IActionResult ResolveAddToOrder(UserViewModel userViewModel)
+        {
+            var pizza = new PizzaFactory().Create();
+            pizza.Crust = new CrustModel() { Name = userViewModel.PizzaVm.Crust };
+            pizza.Size = new SizeModel() { Name = userViewModel.PizzaVm.Size };
+            foreach (var t in userViewModel.PizzaVm.SelectedToppings)
             {
-                var p= new PizzaFactory();
-                //_db.Order.Add(pizzaViewModel); //add pizza to order
-                //repository.Create(pizzaViewModel);
-                //return View("User"); //needs to be a view in order, or shared
-                return Redirect("/user/index");//two ways to redirect: 1, returns a message to browser to ask for new request. 2, 
-                //http 300-series status (302, specifically. a temporary redirect). we can do a perminate redirect. (means don't ever use the POST redirect steps again)
+                pizza.Toppings.Add(new ToppingModel() { Name = t });
             }
-            return View("Order", pizzaViewModel);
+           // var userModel=new UserRepo(_db).GetUserByName(userViewModel.Name);
+           // userModel.Order.Pizzas.Add(pizza);
+           // new UserRepo(_db).WriteUser(userModel);
+           userViewModel.Order.Pizzas.Add(pizza);
+            return View("Order", userViewModel);
+        }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        public IActionResult PlaceOrder(UserViewModel userViewModel) //model binding
+        {
+
+            //if (ModelState.IsValid) // what is being validated? (The "required" attributes above parameters in the viewModel)
+           // {
+                var user= new UserFactory().Create();
+                user.Name= userViewModel.Name;
+                user.OldOrders=userViewModel.OldOrders;
+                user.Order=userViewModel.Order;
+                user.Store= new StoreRepo(_db).GetStoreByName(userViewModel.SelectedStore);
+                user.Order.Name=user.Name;
+                new UserRepo(_db).WriteUser(user);
+                return Redirect("/user/complete");
+           // }
+           // return View("Order", userViewModel);
 
 
+        }
+
+        public IActionResult CheckPreviousOrders(UserViewModel userViewModel)
+        {
+            var viewModel = new UserViewModel(_db, userViewModel);
+            return View("ViewOrder", viewModel);
         }
         // http status
         // 100 series = network
