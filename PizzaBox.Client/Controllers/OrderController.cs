@@ -41,18 +41,8 @@ namespace PizzaBox.Client.Controllers
         }
 
         public IActionResult ResolveAddToOrder(UserViewModel userViewModel)
-        {
-            var pizza = new PizzaFactory().Create();
-            pizza.Crust = new CrustModel() { Name = userViewModel.PizzaVm.Crust };
-            pizza.Size = new SizeModel() { Name = userViewModel.PizzaVm.Size };
-            foreach (var t in userViewModel.PizzaVm.SelectedToppings)
-            {
-                pizza.Toppings.Add(new ToppingModel() { Name = t });
-            }
-           // var userModel=new UserRepo(_db).GetUserByName(userViewModel.Name);
-           // userModel.Order.Pizzas.Add(pizza);
-           // new UserRepo(_db).WriteUser(userModel);
-           userViewModel.Order.Pizzas.Add(pizza);
+        { 
+           userViewModel.Order.Pizzas.Add(userViewModel.PizzaVm.AssemblePizza());
             return View("Order", userViewModel);
         }
 

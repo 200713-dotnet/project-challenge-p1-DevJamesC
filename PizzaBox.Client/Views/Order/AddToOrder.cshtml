@@ -11,6 +11,7 @@ CSRF* = cross-site request forgery, phishing *@
 @Html.HiddenFor(m => m.Name)
  @Html.HiddenFor(m => m.SelectedStore)
  @Html.HiddenFor(m => m.Order)
+ @Html.HiddenFor(m => m.OldOrders)
       
             @for (int i = 0; i < @Model.Order.Pizzas.Count(); i++) 
        {
@@ -22,7 +23,7 @@ CSRF* = cross-site request forgery, phishing *@
   @Html.HiddenFor(m => m.Order.Pizzas[i].Crust.Price);
   @Html.HiddenFor(m => m.Order.Pizzas[i].Size);
   @Html.HiddenFor(m => m.Order.Pizzas[i].Size.Name);
-  @Html.HiddenFor(m => m.Order.Pizzas[i].Price);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Size.Price);
   for (int j = 0; j < @Model.Order.Pizzas[i].Toppings.Count; j++)
   {
       @Html.HiddenFor(m => m.Order.Pizzas[i].Toppings[j]);
@@ -37,6 +38,7 @@ CSRF* = cross-site request forgery, phishing *@
       @Html.HiddenFor(m => m.OldOrders[n].Pizzas);
      
   }
+
 
  
   <select asp-for="@Model.PizzaVm.Crust">

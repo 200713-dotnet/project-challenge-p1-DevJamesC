@@ -1,11 +1,12 @@
 @model PizzaBox.Client.Models.UserViewModel;
 
     <h2>Welcome @Model.Name</h2>
-    <a asp-controller="order" asp-action="checkPreviousOrders">Check Previous Orders</a>
-    <form asp-action="AddToOrder" method="post">
-        @Html.HiddenFor(m => m.Name)
-        @Html.HiddenFor(m => m.SelectedStore)
-
+    
+<form asp-action="checkPreviousOrders" method="post">
+@Html.HiddenFor(m => m.Name)
+ @Html.HiddenFor(m => m.SelectedStore)
+ @Html.HiddenFor(m => m.Order)
+ @Html.HiddenFor(m => m.OldOrders)
 
        @for (int i = 0; i < @Model.Order.Pizzas.Count(); i++) 
        {
@@ -17,7 +18,44 @@
   @Html.HiddenFor(m => m.Order.Pizzas[i].Crust.Price);
   @Html.HiddenFor(m => m.Order.Pizzas[i].Size);
   @Html.HiddenFor(m => m.Order.Pizzas[i].Size.Name);
+ @Html.HiddenFor(m => m.Order.Pizzas[i].Size.Price);
+  for (int j = 0; j < @Model.Order.Pizzas[i].Toppings.Count; j++)
+  {
+      @Html.HiddenFor(m => m.Order.Pizzas[i].Toppings[j]);
+      @Html.HiddenFor(m => m.Order.Pizzas[i].Toppings[j].Name);
+      @Html.HiddenFor(m => m.Order.Pizzas[i].Toppings[j].Price);
+  }
+  
+}
+  @for (int n = 0; n < @Model.OldOrders.Count(); n++)
+  {
+      @Html.HiddenFor(m => m.OldOrders[n].Name);
+      @Html.HiddenFor(m => m.OldOrders[n].Pizzas);
+     
+  }
+
+<button type="submit">Check Previous Orders</button>
+    </form>
+
+
+
+    <form asp-action="AddToOrder" method="post">
+@Html.HiddenFor(m => m.Name)
+ @Html.HiddenFor(m => m.SelectedStore)
+ @Html.HiddenFor(m => m.Order)
+ @Html.HiddenFor(m => m.OldOrders)
+
+       @for (int i = 0; i < @Model.Order.Pizzas.Count(); i++) 
+       {
+  @Html.HiddenFor(m => m.Order.Pizzas[i]);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Name);
   @Html.HiddenFor(m => m.Order.Pizzas[i].Price);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Crust);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Crust.Name);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Crust.Price);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Size);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Size.Name);
+ @Html.HiddenFor(m => m.Order.Pizzas[i].Size.Price);
   for (int j = 0; j < @Model.Order.Pizzas[i].Toppings.Count; j++)
   {
       @Html.HiddenFor(m => m.Order.Pizzas[i].Toppings[j]);
@@ -50,9 +88,10 @@
 
  <form asp-controller="order" asp-action="PlaceOrder" method="post">
 
- @Html.HiddenFor(m => m.Name)
-        @Html.HiddenFor(m => m.SelectedStore)
-
+@Html.HiddenFor(m => m.Name)
+ @Html.HiddenFor(m => m.SelectedStore)
+ @Html.HiddenFor(m => m.Order)
+ @Html.HiddenFor(m => m.OldOrders)
 
        @for (int i = 0; i < @Model.Order.Pizzas.Count(); i++) 
        {
@@ -64,7 +103,7 @@
   @Html.HiddenFor(m => m.Order.Pizzas[i].Crust.Price);
   @Html.HiddenFor(m => m.Order.Pizzas[i].Size);
   @Html.HiddenFor(m => m.Order.Pizzas[i].Size.Name);
-  @Html.HiddenFor(m => m.Order.Pizzas[i].Price);
+ @Html.HiddenFor(m => m.Order.Pizzas[i].Size.Price);
   for (int j = 0; j < @Model.Order.Pizzas[i].Toppings.Count; j++)
   {
       @Html.HiddenFor(m => m.Order.Pizzas[i].Toppings[j]);

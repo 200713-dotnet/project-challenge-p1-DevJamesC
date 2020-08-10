@@ -39,6 +39,42 @@ namespace PizzaBox.Client.Models
         public List<string> SelectedToppings { get; set; }
 
         public bool Selected { get; set; }
+
+        public PizzaModel AssemblePizza()
+        {
+                PizzaModel p = new PizzaFactory().Create();
+                p.Price=6;
+                    foreach (var c in Crusts)
+                    {
+                        if(c.Name==Crust)
+                        {
+                            p.Crust=c;
+                        }
+                    }
+
+                    foreach (var s in Sizes)
+                    {
+                        if(s.Name==Size)
+                        {
+                            p.Size=s;
+                        }
+                    }
+
+                    foreach (var t in Toppings)
+                    {
+                        foreach (var st in SelectedToppings)
+                        {
+                             if(t.Name==st)
+                        {
+                            p.Toppings.Add(t);
+                        }
+                        }
+                       
+                    }
+
+
+                return p;
+        }
        // public bool SelectedTopping { get; set; }
         //create a new model CheckBoxTopping. has prop bool IsSelected. Then change selectedTopping from a bool to a list of CheckBoxTopping... if we want to use the htmlhelper or razer.
     }

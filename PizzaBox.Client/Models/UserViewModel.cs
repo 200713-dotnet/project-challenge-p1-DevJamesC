@@ -25,8 +25,15 @@ namespace PizzaBox.Client.Models
 
             SelectedStore = vm.SelectedStore;
             Name = vm.Name;
+            if (vm.Order == null)
+            {
+                Order = new OrderFactory().Create();
+            }
+            else
+            {
+                Order = vm.Order;
+            }
 
-            Order = new OrderFactory().Create();
             OldOrders = new List<OrderModel>();
 
 
@@ -45,9 +52,9 @@ namespace PizzaBox.Client.Models
                 var or = _db.Orders.Include(Pizzas => _db.Pizzas.ToList()).Include(Toppings => _db.Toppings.ToList()).Include(Crust => _db.Crust.ToList()).Include(Size => _db.Size.ToList());
                 foreach (var order in or)
                 {
-                    if(order.Name==Name)
+                    if (order.Name == Name)
                     {
-                    OldOrders.Add(order);
+                        OldOrders.Add(order);
                     }
                 }
             }
