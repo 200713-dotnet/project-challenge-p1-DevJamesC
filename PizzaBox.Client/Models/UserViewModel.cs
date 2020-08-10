@@ -16,30 +16,44 @@ namespace PizzaBox.Client.Models
         public UserViewModel()
         {
             Stores = new List<StoreModel>() { new StoreModel { Name = "Dev's Pizza - Downtown" }, new StoreModel { Name = "Dev's Pizza - Westside" } };
-            Order= new OrderFactory().Create();
+            Order = new OrderFactory().Create();
+            OldOrders = new List<OrderModel>();
         }
-        public UserViewModel(PizzaBoxDbContext db, UserViewModel vm)//need to make this work for a shopViewModel.
+        public UserViewModel(PizzaBoxDbContext db, UserViewModel vm, bool usedByStore)//need to make this work for a shopViewModel.
         {
             _db = db;
 
             SelectedStore = vm.SelectedStore;
             Name = vm.Name;
 
-            Order= new OrderFactory().Create();
+            Order = new OrderFactory().Create();
             OldOrders = new List<OrderModel>();
 
-          
 
-           var or = _db.Orders.Include(Pizzas=> _db.Pizzas.ToList()).Include(Toppings=>_db.Toppings.ToList()).Include(Crust=>_db.Crust.ToList()).Include(Size=>_db.Size.ToList());
+            if (usedByStore)
+            {
+                var or = _db.Orders.Include(Pizzas => _db.Pizzas.ToList()).Include(Toppings => _db.Toppings.ToList()).Include(Crust => _db.Crust.ToList()).Include(Size => _db.Size.ToList());
+                foreach (var order in or)
+                {
 
-           foreach (var order in or)
-           {
-               
 
-               OldOrders.Add(order);
-           }
+                    OldOrders.Add(order);
+                }
+            }
+            else
+            {
+                var or = _db.Orders.Include(Pizzas => _db.Pizzas.ToList()).Include(Toppings => _db.Toppings.ToList()).Include(Crust => _db.Crust.ToList()).Include(Size => _db.Size.ToList());
+                foreach (var order in or)
+                {
+                    if(order.Name==Name)
+                    {
+                    OldOrders.Add(order);
+                    }
+                }
+            }
 
-            
+
+
         }
         public PizzaViewModel PizzaVm { get; set; }
 

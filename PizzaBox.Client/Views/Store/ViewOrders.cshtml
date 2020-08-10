@@ -4,11 +4,19 @@
 
     @foreach (var order in @Model.OldOrders)
     {
+         @if(order.Pizzas!=null)
+         {
          <p>---------------<br>
+        
        @order.Name<br>
+       
         @foreach (var item in @order.Pizzas)
         {
             @item.ToString()<br>
         }
+         
         ---------------<br></p>
+         }
     }
+
+     

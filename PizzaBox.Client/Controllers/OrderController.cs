@@ -26,7 +26,7 @@ namespace PizzaBox.Client.Controllers
         //[Route("~/Order/Home")]
         public IActionResult Home(UserViewModel userViewModel)
         {
-            var viewModel = new UserViewModel(_db, userViewModel);
+            var viewModel = new UserViewModel(_db, userViewModel, false);
            //var userModel=new UserRepo(_db).GetUserByName(userViewModel.Name);
            // viewModel.Order=userModel.Order;
 
@@ -79,7 +79,7 @@ namespace PizzaBox.Client.Controllers
 
         public IActionResult CheckPreviousOrders(UserViewModel userViewModel)
         {
-            var viewModel = new UserViewModel(_db, userViewModel);
+            var viewModel = new UserViewModel(_db, userViewModel, false);
             return View("ViewOrder", viewModel);
         }
         // http status

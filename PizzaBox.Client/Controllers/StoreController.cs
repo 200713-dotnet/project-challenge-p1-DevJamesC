@@ -25,7 +25,7 @@ namespace PizzaBox.Client.Controllers
 
         public IActionResult ViewOrders()
         {
-            return View("ViewOrders",new UserViewModel(_db,new UserViewModel()));
+            return View("ViewOrders",new UserViewModel(_db,new UserViewModel(),true));
         }
        
 

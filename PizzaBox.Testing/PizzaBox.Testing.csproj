@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="microsoft.entityframeworkcore" Version="3.1.6" />
+    <PackageReference Include="microsoft.entityframeworkcore.design" Version="3.1.6">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SQLite" Version="3.1.6" />
+    <PackageReference Include="microsoft.entityframeworkcore.sqlserver" Version="3.1.6" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
@@ -14,9 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PizzaBox.Client\PizzaBox.Client.csproj" />
-    <ProjectReference Include="..\PizzaBox.Domain\PizzaBox.Domain.csproj" />
     <ProjectReference Include="..\PizzaBox.Storing\PizzaBox.Storing.csproj" />
+    <ProjectReference Include="..\PizzaBox.Domain\PizzaBox.Domain.csproj" />
+    <ProjectReference Include="..\PizzaBox.Client\PizzaBox.Client.csproj" />
   </ItemGroup>
 
 </Project>

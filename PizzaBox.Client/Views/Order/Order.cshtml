@@ -26,7 +26,12 @@
   }
   
 }
-
+  @for (int n = 0; n < @Model.OldOrders.Count(); n++)
+  {
+      @Html.HiddenFor(m => m.OldOrders[n].Name);
+      @Html.HiddenFor(m => m.OldOrders[n].Pizzas);
+     
+  }
      <button type="submit">Add an Item</button>
 
     </form>
@@ -68,6 +73,12 @@
   }
   
 }
+     @for (int n = 0; n < @Model.OldOrders.Count(); n++)
+  {
+      @Html.HiddenFor(m => m.OldOrders[n].Name);
+      @Html.HiddenFor(m => m.OldOrders[n].Pizzas);
+
+  }
 
 
      <button type="submit">Place Order</button>

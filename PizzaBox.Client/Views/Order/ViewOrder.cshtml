@@ -1,11 +1,75 @@
 @model PizzaBox.Client.Models.UserViewModel;
 
-    <a asp-controller="order" asp-action="home">back<br></a>
+    <form asp-controller="order" asp-action="home" method="post">
+
+ @Html.HiddenFor(m => m.Name)
+        @Html.HiddenFor(m => m.SelectedStore)
+
+
+       @for (int i = 0; i < @Model.Order.Pizzas.Count(); i++) 
+       {
+  @Html.HiddenFor(m => m.Order.Pizzas[i]);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Name);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Price);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Crust);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Crust.Name);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Crust.Price);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Size);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Size.Name);
+  @Html.HiddenFor(m => m.Order.Pizzas[i].Price);
+  for (int j = 0; j < @Model.Order.Pizzas[i].Toppings.Count; j++)
+  {
+      @Html.HiddenFor(m => m.Order.Pizzas[i].Toppings[j]);
+      @Html.HiddenFor(m => m.Order.Pizzas[i].Toppings[j].Name);
+      @Html.HiddenFor(m => m.Order.Pizzas[i].Toppings[j].Price);
+  }
+}
+      @for (int n = 0; n < @Model.OldOrders.Count(); n++)
+  {
+      @Html.HiddenFor(m => m.OldOrders[n].Name);
+      @Html.HiddenFor(m => m.OldOrders[n].Pizzas);
+      
+  }
+
+
+     <button type="submit">Back</button>
+       </form>
 
     @foreach (var order in @Model.OldOrders)
     {
-        <p>---------------<br></p>
-        <p>@order.Name</p>
-        <p>---------------<br></p>
+         <p>---------------<br>
+       @order.Name<br>
+        @foreach (var item in @order.Pizzas)
+        {
+           @* @item.ToString()<br>*@
+        }
+        ---------------<br></p>
     }
+
+    @*
+     @for (int n = 0; n < @Model.OldOrders.Count(); n++)
+  {
+      @Html.HiddenFor(m => m.OldOrders[n].Name);
+      @Html.HiddenFor(m => m.OldOrders[n].Pizzas);
+      @for (int u = 0; u < @Model.OldOrders[n].Pizzas.Count(); u++)
+      {
+         @Html.HiddenFor(m => m.OldOrders[n].Pizzas[u]);
+  @Html.HiddenFor(m => m.OldOrders[n].Pizzas[u].Name);
+  @Html.HiddenFor(m => m.OldOrders[n].Pizzas[u].Price);
+  @Html.HiddenFor(m => m.OldOrders[n].Pizzas[u].Crust);
+  @Html.HiddenFor(m => m.OldOrders[n].Pizzas[u].Crust.Name);
+  @Html.HiddenFor(m => m.OldOrders[n].Pizzas[u].Crust.Price);
+  @Html.HiddenFor(m => m.OldOrders[n].Pizzas[u].Size);
+  @Html.HiddenFor(m => m.OldOrders[n].Pizzas[u].Size.Name);
+  @Html.HiddenFor(m => m.OldOrders[n].Pizzas[u].Price);
+for (int b = 0; b < @Model.OldOrders[n].Pizzas[u].Toppings.Count; b++)
+  {
+      @Html.HiddenFor(m => m.OldOrders[n].Pizzas[u].Toppings[b]);
+      @Html.HiddenFor(m => m.OldOrders[n].Pizzas[u].Toppings[b].Name);
+      @Html.HiddenFor(m => m.OldOrders[n].Pizzas[u].Toppings[b].Price);
+  }
+
+      }
+  }
+    *@
 

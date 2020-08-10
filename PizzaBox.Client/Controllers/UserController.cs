@@ -32,7 +32,7 @@ namespace PizzaBox.Client.Controllers
         {
             if (ModelState.IsValid)
             {
-                var viewModel= new UserViewModel(_db, userViewModel);
+                var viewModel= new UserViewModel(_db, userViewModel,false);
                 //viewModel.SetSelectedStore();
                 return RedirectToAction("Home","Order",viewModel);
                
